@@ -39,7 +39,7 @@ def get_playlist_tracks(username,playlist_id):
     tracks = []
     for d in info:
         tracks += [d['track']['id']]
-    return info
+    return tracks
 
 #tracks = get_playlist_tracks('aminvikram', '5agf2Irrk07oNXTMuIm0J3')
 
@@ -56,7 +56,7 @@ def get_playlists(username):
         playlist_ids += [playlist['id']]
     return dict(zip(playlist_names, playlist_ids))
     
-playlists = get_playlists('aminvikram')
+#playlists = get_playlists('aminvikram')
 
 def build_playlist(username, track_list, playlist_name):
     '''
@@ -68,7 +68,7 @@ def build_playlist(username, track_list, playlist_name):
     spotify.user_playlist_add_tracks(username, playlist_id=playlist['id'], tracks=track_list)
     return playlist
     
-build_playlist('aminvikram', ['7jdBp6gDHrCK0YVKuqrU8d'], 'testing')
+#build_playlist('aminvikram', ['7jdBp6gDHrCK0YVKuqrU8d'], 'testing')
 
 def get_song_info(id_code):
     '''
@@ -81,7 +81,7 @@ def get_song_info(id_code):
     return artist_names[0], track_name
 
 
-print(get_song_info('7jdBp6gDHrCK0YVKuqrU8d'))
+#print(get_song_info('7jdBp6gDHrCK0YVKuqrU8d'))
 
 #lax playlist uri
 #spotify:user:aminvikram:playlist:5agf2Irrk07oNXTMuIm0J3

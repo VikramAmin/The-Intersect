@@ -20,4 +20,4 @@ def get_tags(artist, name):
         tags += [e[0].name]
     return tags
 
-tags = get_tags('Coldplay', 'Clocks')
+#tags = get_tags('Coldplay', 'Clocks')
