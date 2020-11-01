@@ -2,15 +2,13 @@ import spotipy
 import sys
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
-# from passwords import *  
+from passwords import *  
 
 
 redirectURL = 'http://localhost/' # We/Spotify suggest http://localhost:8888/callback/ or http://localhost/
 scope = 'playlist-modify-public'
 username = 'aminvikram'
 
-clientID = 'f30f57ef46074ab2aed92607b5b0301c'
-clientSecret = 'ecf7fd579360466ba6cf1513137d0cfe'
 
 
 client_credentials_manager = SpotifyClientCredentials(client_id=clientID,
