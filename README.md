@@ -1,6 +1,5 @@
 # The-Intersect
-Uses Spotipy to allow the user to create playlist out of the intersection of two playlists.
-Also using crowd sourced tags from lastfm to classify the mood and/or of individual songs.
+Uses Spotipy and Pylast to allow a user to generate playlists as subsets of their music library.
 
 Goal: 
 1. To create a system that allows a user to preform intersections and unions for playlists
