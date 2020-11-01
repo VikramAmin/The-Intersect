@@ -18,8 +18,8 @@ mood_list = [nlp(mood) for mood in mood_list]
 
 def tokenize_top_tags(tags):
     tokens = []
-    for tag in tags["toptags"]["tag"]:
-        tokens += [[nlp(tag["name"]), tag['count']]]
+    for tag in tags:
+        tokens += [[nlp(tag[0]), int(tag[1])]]
     return tokens
         
 def token_dist(token1, token2):
@@ -37,3 +37,5 @@ for token in tokens:
         
 distances = pd.DataFrame(distances,columns=['tag','mood','dist', 'weight'])
 mood_classes=distances.groupby('mood', as_index=False).mean()
+distances['weigted_dist']=distances.dist*distances.weight
+weigted_mood_classes=distances[['tag','mood','weigted_dist']].groupby('mood', as_index=False).mean()
