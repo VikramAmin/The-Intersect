@@ -7,14 +7,37 @@ Created on Wed Oct 28 22:56:02 2020
 
 import spacy
 import pandas as pd
-
+import statistics
 nlp = spacy.load('en_core_web_sm')
 
 #test={"toptags":{"@attr":{"offset":0,"num_res":50,"total":2736558},"tag":[{"name":"rock","count":3983323,"reach":395866},{"name":"electronic","count":2375997,"reach":254451},{"name":"seen live","count":2142883,"reach":81755},{"name":"alternative","count":2096764,"reach":262074},{"name":"indie","count":2019297,"reach":253815},{"name":"pop","count":1978632,"reach":226174},{"name":"female vocalists","count":1600986,"reach":167900},{"name":"metal","count":1260640,"reach":155748},{"name":"alternative rock","count":1168243,"reach":166992},{"name":"jazz","count":1152540,"reach":146682},{"name":"classic rock","count":1139745,"reach":136660},{"name":"ambient","count":1057483,"reach":144501},{"name":"experimental","count":1054148,"reach":139524},{"name":"folk","count":919195,"reach":147694},{"name":"punk","count":884093,"reach":142178},{"name":"indie rock","count":877573,"reach":133605},{"name":"Hip-Hop","count":861685,"reach":126986},{"name":"hard rock","count":859377,"reach":113968},{"name":"instrumental","count":841716,"reach":123301},{"name":"black metal","count":838012,"reach":61736},{"name":"singer-songwriter","count":832047,"reach":108214},{"name":"dance","count":798505,"reach":132113},{"name":"80s","count":776806,"reach":99952},{"name":"Progressive rock","count":723646,"reach":95345},{"name":"death metal","count":714399,"reach":71028},{"name":"heavy metal","count":700757,"reach":89574},{"name":"hardcore","count":691126,"reach":97070},{"name":"british","count":684826,"reach":92717},{"name":"soul","count":671192,"reach":100007},{"name":"chillout","count":647307,"reach":103102},{"name":"electronica","count":630579,"reach":101472},{"name":"Classical","count":562021,"reach":73696},{"name":"rap","count":560940,"reach":103409},{"name":"industrial","count":558615,"reach":83143},{"name":"Soundtrack","count":557107,"reach":83784},{"name":"punk rock","count":546869,"reach":97007},{"name":"blues","count":544561,"reach":95206},{"name":"thrash metal","count":491732,"reach":61992},{"name":"90s","count":479852,"reach":56539},{"name":"acoustic","count":475122,"reach":110010},{"name":"metalcore","count":473987,"reach":66582},{"name":"psychedelic","count":471352,"reach":77300},{"name":"japanese","count":458830,"reach":48338},{"name":"post-rock","count":440513,"reach":64624},{"name":"Progressive metal","count":432718,"reach":61803},{"name":"german","count":431844,"reach":58996},{"name":"hip hop","count":425288,"reach":76589},{"name":"funk","count":422610,"reach":82157},{"name":"new wave","count":418038,"reach":63539},{"name":"trance","count":414495,"reach":64241}]}}
 
 
-mood_list =['Warm', 'Peaceful', 'Dreamy', 'Soothing', 'Enchanting', 'Sentimental', 'Heartfelt', 'Heartwarming', 'Bouncy', 'Fun', 'Feel Good', 'Bright', 'Playful', 'Whimsical', 'Comical', 'Lively', 'Quirky', 'Heartache', 'Yearning', 'Longing', 'Pensive', 'Melancholy', 'Heartbroken', 'Grim', 'Ominous', 'Mysterious', 'Gloomy', 'Dark']
-mood_list = [nlp(mood) for mood in mood_list]
+"""
+The following comes from the model of Henver seen in figure 1 of the following paper:
+https://www.researchgate.net/publication/317382609_Music_Mood_Dataset_Creation_Based_on_Last_FM_Tags
+"""
+mood1=["Spiritual", "Lofty", "Awe-inspiring", "Dignified", "Sacred", "Solemn", "Sober", "Serious"]
+mood2=["Pathetic", "Doleful", "Sad", "Mournful", "Tragic", "Melancholy", "Frustrated", "Depressing", "Gloomy", "Heavy", "Dark"]
+mood3=["Dreamy", "Yielding", "Tender", "Sentimental", "Longing", "Yearning", "Pleading", "Plaintive"]
+mood4=["Lyrical", "Leisurely", "Satisfying", "Serene", "Tranquil", "Quiet", "Soothing"]
+mood5=["Humorous", "Playful", "Whimsical", "Fanciful", "Quaint", "Sprightly", "Delicate", "Light", "Graceful"]
+mood6=["Merry", "Joyous", "Gay", "Happy", "Cheerful", "Bright"]
+mood7=["Exhilarated", "Soaring", "Triumphant", "Dramatic", "Passionate", "Sensational", "Agitated", "Exciting", "Impetuous", "Restless"]
+mood8=["Vigorous", "Robust", "Emphatic", "Martial", "Ponderous", "Majestic", "Exalting"]
+
+mood1 = [nlp(mood) for mood in mood1]
+mood2 = [nlp(mood) for mood in mood2]
+mood3 = [nlp(mood) for mood in mood3]
+mood4 = [nlp(mood) for mood in mood4]
+mood5 = [nlp(mood) for mood in mood5]
+mood6 = [nlp(mood) for mood in mood6]
+mood7 = [nlp(mood) for mood in mood7]
+mood8 = [nlp(mood) for mood in mood8]
+
+mood_list = [mood1,mood2,mood3,mood4,mood5,mood6,mood7,mood8]
+###############################################################################
+
 
 def tokenize_top_tags(tags):
     tokens = []
@@ -24,6 +47,18 @@ def tokenize_top_tags(tags):
         
 def token_dist(token1, token2):
     return token1.similarity(token2)
+
+
+def dist_from_mood(mood, tag):
+    return statistics.mean([mood_word.similarity(tag) for mood_word in mood])
+
+def assign_mood(tag):
+    mood_dist = [dist_from_mood(mood, tag) for mood in mood_list]
+    return mood_dist.index(max(mood_dist))+1
+
+
+
+
 
 
 tokens = tokenize_top_tags(test)
